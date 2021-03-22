@@ -2,6 +2,8 @@ from database import Base
 from sqlalchemy import Column, Integer, String, DateTime
 
 class NewsArticle(Base):
+    __tablename__ = "articles"
+
     id = Column(Integer, primary_key=True, autoincrement=True)
     title = Column(String)
     author = Column(String)
@@ -9,6 +11,8 @@ class NewsArticle(Base):
     img_url = Column(String)
     published_date = Column(DateTime)
     # tags = Column(postgresql.ARRAY)
+
+
 
 
 # class Tag:
