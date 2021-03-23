@@ -15,7 +15,9 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
 def create_db():
-    # with engine.connect() as connection:
-    #     connection.execute(text("CREATE SCHEMA IF NOT EXISTS news"))
+
     # Base.metadata.create_all(bind=engine)
     pass
+
+def get_session():
+    return SessionLocal()

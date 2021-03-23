@@ -1,7 +1,9 @@
-from database import Base, engine, create_db
+from databse.database import Base
 from sqlalchemy import Column, Integer, String, DateTime, Text
 
+
 class NewsArticle(Base):
+    """Represents a news article"""
     __tablename__ = "articles"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -13,4 +15,7 @@ class NewsArticle(Base):
     published_date = Column(DateTime)
 
     __table_args__ = {"schema": "news"}
+
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
