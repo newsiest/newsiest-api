@@ -11,7 +11,7 @@ class NewsArticle(db.Model):
     author = db.Column(db.String)
     url = db.Column(db.String)
     img_url = db.Column(db.String)
-    published_date = db.Column(db.DateTime)
+    published_date = db.Column(db.DateTime(timezone=True))
 
     __table_args__ = {"schema": "news"}
 
