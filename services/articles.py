@@ -1,5 +1,5 @@
-from databse.models import NewsArticle
-from databse import database as db
+from database.models import NewsArticle
+from database import database as db
 
 def get_all(limit=10, offset=0, **kwargs):
     session = db.get_session()
