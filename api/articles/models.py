@@ -12,6 +12,10 @@ class NewsSource(db.Model):
     __tablename__ = "sources"
     __table_args__ = {"schema": "news"}
 
+    def as_dict(self):
+        return {c.name: str(getattr(self, c.name)) for c in self.__table__.columns}
+
+
 
 class NewsArticle(db.Model):
     """Represents a news article"""
@@ -29,7 +33,11 @@ class NewsArticle(db.Model):
     __table_args__ = {"schema": "news"}
 
     def as_dict(self):
-        return {c.name: str(getattr(self, c.name)) for c in self.__table__.columns}
+        a = {c.name: str(getattr(self, c.name)) for c in self.__table__.columns}
+        b = {'source': self.source.as_dict() if self.source else None}
+        return dict(a, **b)
+
+
 
 
 
