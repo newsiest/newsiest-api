@@ -18,6 +18,10 @@ from api.articles import controller as articles
 
 app.register_blueprint(articles.view, url_prefix='/articles')
 
+from data_injest import injest
+injest.DataFeed().start()
+
+
 if __name__ == 'main':
     print('start')
     app.run(debug=True, port=3000)
