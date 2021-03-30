@@ -12,6 +12,7 @@ class NewsSource(db.Model):
     __table_args__ = {"schema": "news"}
 
 
+
 class NewsArticle(db.Model):
     """Represents a news article"""
 
