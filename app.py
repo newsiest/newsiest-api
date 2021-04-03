@@ -18,11 +18,11 @@ from api.articles import controller as articles
 
 app.register_blueprint(articles.view, url_prefix='/articles')
 
-
-
 from data_injest import injest
-injest.DataFeed(db=db, url='', queue_name='articles').start()
+injest.DataFeed(db=db, url='amqp://guest:guest@localhost:5672/%2f', queue_name='articles').start()
 
+
+# TODO cleanup this entire file and properly check env vars
 
 if __name__ == 'main':
     print('start')

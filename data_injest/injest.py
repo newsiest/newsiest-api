@@ -60,7 +60,7 @@ class DataFeed:
         self._queue_name = queue_name
 
     def _connect(self):
-        self._connection = pika.BlockingConnection()
+        self._connection = pika.BlockingConnection(parameters=self._params)
         self._channel = self._connection.channel()
         self._channel.queue_declare(self._queue_name)
         self._channel.basic_consume(self._queue_name, self._callback, auto_ack=True)
