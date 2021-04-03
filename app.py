@@ -19,11 +19,10 @@ from api.articles import controller as articles
 app.register_blueprint(articles.view, url_prefix='/articles')
 
 
-try:
-    from data_injest import injest
-    injest.DataFeed(db=db).start()
-except:
-    pass
+
+from data_injest import injest
+injest.DataFeed(db=db, url='', queue_name='articles').start()
+
 
 if __name__ == 'main':
     print('start')

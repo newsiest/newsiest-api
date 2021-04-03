@@ -11,6 +11,8 @@ class NewsSource(db.Model):
     __tablename__ = "sources"
     __table_args__ = {"schema": "news"}
 
+    def as_dict(self):
+        return {c.name: str(getattr(self, c.name)) for c in self.__table__.columns}
 
 
 class NewsArticle(db.Model):
@@ -29,7 +31,9 @@ class NewsArticle(db.Model):
     __table_args__ = {"schema": "news"}
 
     def as_dict(self):
-        return {c.name: str(getattr(self, c.name)) for c in self.__table__.columns}
+        attrs =  {c.name: str(getattr(self, c.name)) for c in self.__table__.columns if c.name != 'source_id'}
+        attrs['source'] = self.source.as_dict() if self.source else None
+        return attrs
 
 
 
