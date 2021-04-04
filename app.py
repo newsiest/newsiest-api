@@ -1,28 +1,23 @@
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
-import os
+from flask import jsonify
 
-from threading import Thread
-import time
-
-app = Flask(__name__)
-app.config['DEBUG'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DB_URL')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-db = SQLAlchemy(app)
-Migrate(app, db)
-
-from api.articles import models
+from config import app, db, RABBIT_URL
 from api.articles import controller as articles
+from api.utils.exceptions import APIException
+from data_injest import injest
 
 app.register_blueprint(articles.view, url_prefix='/articles')
 
-from data_injest import injest
-injest.DataFeed(db=db, url='amqp://guest:guest@localhost:5672/%2f', queue_name='articles').start()
-
+injest.DataFeed(db=db, url=RABBIT_URL, queue_name='articles').start()
 
 # TODO cleanup this entire file and properly check env vars
+
+
+@app.errorhandler(APIException)
+def handle_api_exception(ex):
+    response = jsonify({'message': ex.message})
+    response.status_code = ex.status_code
+    return response
+
 
 if __name__ == 'main':
     print('start')

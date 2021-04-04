@@ -51,7 +51,6 @@ class DataFeed:
     """
     Handles incoming data from RabbitMQ
     """
-
     def __init__(self, db, url, queue_name):
         self._db = db
         self._parser = DataParser(db)
@@ -77,4 +76,4 @@ class DataFeed:
         self._channel.start_consuming()
 
     def start(self):
-        Thread(target=self._run).start()
+        Thread(target=self._run, daemon=True).start()
