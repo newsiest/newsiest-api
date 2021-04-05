@@ -33,6 +33,7 @@ class NewsArticle(db.Model):
     def as_dict(self):
         attrs =  {c.name: str(getattr(self, c.name)) for c in self.__table__.columns if c.name != 'source_id'}
         attrs['source'] = self.source.as_dict() if self.source else None
+        attrs['tags'] = ['sample_tag_a', 'sample_tag_b']
         return attrs
 
 

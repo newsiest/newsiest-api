@@ -12,7 +12,9 @@ db = SQLAlchemy(app)
 Migrate(app, db)
 
 # RabbitMQ
-RABBIT_URL = 'amqp://guest:guest@localhost:5672/%2f' # TODO get form env
+RABBIT_URL = 'amqp://guest:guest@localhost:5672/%2f' # TODO get from env
 
 # Auth0 setup
-
+AUTH0_DOMAIN = 'newsiest.us.auth0.com'
+API_AUDIENCE = 'https://newsiest.us.auth0.com/api/v2/'
+ALGORITHMS = ["RS256"]
