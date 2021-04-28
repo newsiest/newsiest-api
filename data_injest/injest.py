@@ -3,6 +3,7 @@ import pika
 import time
 import jsonpickle
 from api.articles.models import NewsArticle, NewsSource
+from dateutil import parser as date_parser
 
 # Everything here happens on a separate thread
 
@@ -29,8 +30,14 @@ class DataParser:
         parsed = jsonpickle.decode(body)
         print(f'received:{parsed["title"]}')
 
+        date = date_parser.parse(parsed['pub_date'])
         source = self._get_source(parsed['source'])
-        obj = NewsArticle(title=parsed['title'], author=parsed['author'], img_url=parsed['img_url'])
+        obj = NewsArticle(title=parsed['title'],
+                          author=parsed['author'],
+                          url=parsed['url'],
+                          published_date=date,
+                          description=parsed['desc_title'] + parsed['desc_para'],
+                          img_url=parsed['img_url'])
         obj.source = source
 
         if self._db:
