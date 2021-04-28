@@ -2,7 +2,7 @@ from flask import Blueprint, request
 
 from ..utils.pagination import ResponseFormatter
 from .services import ArticleService
-from ..utils.auth import requires_auth
+from ..utils.auth import check_auth
 
 view = Blueprint('articles', __name__)
 
@@ -13,8 +13,10 @@ def list():
 
 
 
-@view.route('/lock')
-@requires_auth
+@view.route('/lock/')
+@check_auth
 def lock(user=None):
     l = [a.as_dict() for a in ArticleService.get_all()]
+
     return ResponseFormatter.get_paginated(l)
+

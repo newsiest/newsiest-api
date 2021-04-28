@@ -38,7 +38,7 @@ def get_token_auth_header():
     token = parts[1]
     return token
 
-def requires_auth(f):
+def check_auth(f, required=True):
     """Determines if the Access Token is valid
     """
     @wraps(f)
@@ -84,4 +84,6 @@ def requires_auth(f):
             return f(*args, user=payload, **kwargs)
         raise UnauthorizedException({"code": "invalid_header",
                         "description": "Unable to find appropriate key"}, 401)
+
+
     return decorated

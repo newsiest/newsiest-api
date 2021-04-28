@@ -14,11 +14,6 @@ class DataParser:
         self._db = db
 
     def _get_source(self, inf=None):
-        # Temp source, remove when source is passed in message
-        inf = {
-            'name': 'Sample Source',
-            'img_url': 'blank'
-        }
         slug = inf['name'].lower().replace(' ', '-')
         self._db.session.rollback()
         source = NewsSource.query.filter_by(slug=slug).first()
@@ -34,7 +29,7 @@ class DataParser:
         parsed = jsonpickle.decode(body)
         print(f'received:{parsed["title"]}')
 
-        source = self._get_source()
+        source = self._get_source(parsed['source'])
         obj = NewsArticle(title=parsed['title'], author=parsed['author'], img_url=parsed['img_url'])
         obj.source = source
 
